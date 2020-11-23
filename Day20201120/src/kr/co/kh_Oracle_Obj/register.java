@@ -1,62 +1,100 @@
 package kr.co.kh_Oracle_Obj;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 public class register {
-
-}
-
-/*
-public static String register(String protocol,BufferedReader input,Statement stmt,Connection conn,int cnt)throws IOException,SQLException {
-System.out.println("=====¸Ş´º¼±ÅÃ======");
-	System.out.println("1.ÇĞ»ı");
-	System.out.println("2.±³¼ö");
-	System.out.println("3.°ü¸®ÀÚ");
-	System.out.println("4.ÀÌÀü¸Ş´º");
-	System.out.println("¹øÈ£¸¦ ¼±ÅÃÇØ ÁÖ¼¼¿ä..");
-		protocol=input.readLine();
-	if(protocol.equals("1")) {
-		System.out.println("ÇĞ»ıµî·Ï");
-			System.out.println("³ªÀÌ:");
-			String age1 = input.readLine();
-			System.out.println("ÀÌ¸§:");
-			String irum = input.readLine();
-			System.out.println("ÇĞ¹ø:");
-			String hakbun1 = input.readLine();			
-				stmt=conn.createStatement();
-				int age=Integer.parseInt(age1);
-				int hakbun = Integer.parseInt(hakbun1);
-				String sql = "insert into student(no,age,irum,hakbun) values(student_no.nextval,"+age+",'"+irum+"',"+hakbun+")";
-				cnt = stmt.executeUpdate(sql);
-		
-			System.out.println(cnt+"°Ç ÇĞ»ıÀÌ µî·ÏµÇ¾ú½À´Ï´Ù.");
-	}else if(protocol.equals("2")) {
-		System.out.println("±³¼öµî·Ï");
-		
-			System.out.println("³ªÀÌ:");
-			String age1 = input.readLine();
-			System.out.println("ÀÌ¸§:");
-			String irum = input.readLine();
-			System.out.println("°ú¸ñ:");
-			String subject = input.readLine();
-			int age=Integer.parseInt(age1);			
-				stmt = conn.createStatement();
-				String sql = "insert into professor(no,age,irum,subject) values(professor_no.nextval,"+age+",'"+irum+"','"+subject+"')";
-				cnt=stmt.executeUpdate(sql);
-				System.out.println(cnt+"°Ç ±³¼ö´ÔÀÌ µî·ÏµÇ¾ú½À´Ï´Ù.");			
-	}else if(protocol.equals("3")) {
-		    System.out.println("°ü¸®ÀÚµî·Ï");		    
-			System.out.println("³ªÀÌ:");
-			String age1 = input.readLine();
-			System.out.println("ÀÌ¸§:");
-			String irum = input.readLine();
-			System.out.println("ºÎ¼­:");
-			String part = input.readLine();
-			cnt=0;
-				stmt = conn.createStatement();
-				int age = Integer.parseInt(age1);
-				String sql = "insert into manager(no,age,irum,part) values(manager_no.nextval,"+age+",'"+irum+"','"+part+"')";
-				cnt = stmt.executeUpdate(sql);
+	public static BufferedReader input;
+	private String protocol;
+	public static Statement stmt;
+	public static Connection conn;
+	private int cnt;
+	static {
+		input = new BufferedReader(new InputStreamReader(System.in));
 	}
-			System.out.println(cnt+"°Ç °ü¸®ÀÚ´ÔÀÌ µî·ÏµÇ¾ú½À´Ï´Ù.");
-			return protocol;
+	public register() {
+	}
+
+	public static Connection getConnection() throws SQLException {
+		conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:XE", "junyeobk", "dkdlxl");
+		return conn;
+	}
+	public void selectType() throws IOException, SQLException {
+		System.out.println("=====ë©”ë‰´ì„ íƒ======");
+		System.out.println("1.í•™ìƒ");
+		System.out.println("2.êµìˆ˜");
+		System.out.println("3.ê´€ë¦¬ì");
+		System.out.println("4.ì´ì „ë©”ë‰´");
+		System.out.println("ë²ˆí˜¸ë¥¼ ì„ íƒí•´ ì£¼ì„¸ìš”..");
+		protocol = input.readLine();
+		if (protocol.equals("1")) {
+			student();
+		} else if (protocol.equals("2")) {
+			professor();
+		} else if (protocol.equals("3")) {
+			manager();
+		}
+	}
+
+	public String student() throws SQLException, IOException {
+		System.out.println("í•™ìƒë“±ë¡");
+		System.out.println("ë‚˜ì´:");
+		String age1 = input.readLine();
+		System.out.println("ì´ë¦„:");
+		String irum = input.readLine();
+		System.out.println("í•™ë²ˆ:");
+		String hakbun1 = input.readLine();
+		stmt = conn.createStatement();
+		int age = Integer.parseInt(age1);
+		int hakbun = Integer.parseInt(hakbun1);
+		String sql = "insert into student(no,age,irum,hakbun) values(student_no.nextval," + age + ",'" + irum + "',"
+				+ hakbun + ")";
+		cnt = stmt.executeUpdate(sql);
+		System.out.println(cnt + "ê±´ í•™ìƒì´ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤.");
+		return protocol;
+
+	}
+
+	public String professor() throws SQLException, IOException {
+		System.out.println("êµìˆ˜ë“±ë¡");
+		System.out.println("ë‚˜ì´:");
+		String age1 = input.readLine();
+		System.out.println("ì´ë¦„:");
+		String irum = input.readLine();
+		System.out.println("ê³¼ëª©:");
+		String subject = input.readLine();
+		int age = Integer.parseInt(age1);
+		stmt = conn.createStatement();
+		String sql = "insert into professor(no,age,irum,subject) values(professor_no.nextval," + age + ",'" + irum
+				+ "','" + subject + "')";
+		cnt = stmt.executeUpdate(sql);
+		System.out.println(cnt + "ê±´ êµìˆ˜ë‹˜ì´ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤.");
+		return protocol;
+	}
+
+	public String manager() throws SQLException, IOException {
+		System.out.println("ê´€ë¦¬ìë“±ë¡");
+		System.out.println("ë‚˜ì´:");
+		String age1 = input.readLine();
+		System.out.println("ì´ë¦„:");
+		String irum = input.readLine();
+		System.out.println("ë¶€ì„œ:");
+		String part = input.readLine();
+		stmt = conn.createStatement();
+		int age = Integer.parseInt(age1);
+		String sql = "insert into manager(no,age,irum,part) values(manager_no.nextval," + age + ",'" + irum + "','"
+				+ part + "')";
+		cnt = stmt.executeUpdate(sql);
+		System.out.println(cnt + "ê±´ ê´€ë¦¬ìë‹˜ì´ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤.");
+		return protocol;
+	}
+	
+	public void connClose() throws SQLException {
+		conn.close();
+	}
 }
-*/
