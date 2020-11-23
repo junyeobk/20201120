@@ -11,110 +11,113 @@ import java.sql.Statement;
 public class HaksaEx {
 
 	public static void main(String[] args) {
+		register reg = new register();
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-		String protocol=null;
-		Connection conn=null;
+		String protocol = null;
+
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 		} catch (ClassNotFoundException e2) {
 			e2.printStackTrace();
 		}
-		Statement stmt =null;
-		int cnt=0;
-		while(true) {//π›∫ππÆ
-		try {
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:XE","khbclass","dkdlxl");
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
-		System.out.println("======«–ªÁ∞¸∏Æ=====");
-		System.out.println("1.µÓ∑œ");
-		System.out.println("2.∞Àªˆ");
-		System.out.println("3.ªË¡¶");
-		System.out.println("4.¿¸√º√‚∑¬");
-		System.out.println("=================");
-		System.out.println("0.¡æ∑·");
-		System.out.println("π¯»£∏¶ º±≈√«ÿ ¡÷ººø‰..");	
-		try {
-			protocol = input.readLine();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}		
-		if(protocol.equals("1")) {
-			     try {
-				protocol=HaksaFunction.register(protocol, input, stmt, conn, cnt);
-			    } catch (IOException e) {
-				e.printStackTrace();
-			    } catch (SQLException e) {
-				e.printStackTrace();
-			    } finally {
-					try {
-						conn.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}						
-			    if(protocol.equals("4")) {
-				continue;
-			    }
-			System.out.println("∞Ëº”«œΩ√∑¡∏È 1,¡æ∑·«œΩ√∑¡∏È0¿ª ¿‘∑¬«ÿ ¡÷ººø‰..");
+
+		while (true) {// Î∞òÎ≥µÎ¨∏
 			try {
-				String bunho = input.readLine();
-				if(bunho.equals("1")) {
-					continue;
-				}else {
-					System.exit(0);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
+				reg.getConnection();
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
 			}
-		}//µÓ∑œ¿«≥° 
-		if(protocol.equals("2")) {
-			System.out.println("√£±‚");
-			   try {
-				HaksaFunction.search(input, stmt, conn);
+			System.out.println("======ÌïôÏÇ¨Í¥ÄÎ¶¨=====");
+			System.out.println("1.Îì±Î°ù");
+			System.out.println("2.Í≤ÄÏÉâ");
+			System.out.println("3.ÏÇ≠Ï†ú");
+			System.out.println("4.Ï†ÑÏ≤¥Ï∂úÎ†•");
+			System.out.println("=================");
+			System.out.println("0.Ï¢ÖÎ£å");
+			System.out.println("Î≤àÌò∏Î•º ÏÑ†ÌÉùÌï¥ Ï£ºÏÑ∏Ïöî..");
+			try {
+				protocol = input.readLine();
 			} catch (IOException e1) {
 				e1.printStackTrace();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
 			}
-						try {
-							conn.close();
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}			
-		}
-		else if(protocol.equals("3")) {
-			System.out.println("ªË¡¶");
-			try {
-				HaksaFunction.delete(input, stmt, conn);
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}else if(protocol.equals("4")) {
-			System.out.println("¿¸√º√‚∑¬");
-			        try {
-						HaksaFunction.list(stmt, conn);
-						
-					} catch (IOException e) {
-						e.printStackTrace();
+			if (protocol.equals("1")) { //Îì±Î°ù ÌîÑÎ°úÌÜ†ÏΩú
+				try {
+					reg.selectType();
+					if (protocol.equals("4"))
+						continue;
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} finally {
+					try {
+						reg.connClose();
 					} catch (SQLException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} finally {
-						try {
-							conn.close();
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-					}			
-		   }		
-		else if(protocol.equals("0")) {			
-			System.out.println("«–ªÁ«¡∑Œ±◊∑•¿ª ¡æ∑·«’¥œ¥Ÿ.");
-			System.exit(0);
-		}
-	 }//π›∫ππÆ
-	}
+					}
+				}
 
+				System.out.println("Í≥ÑÏÜçÌïòÏãúÎ†§Î©¥ 1,Ï¢ÖÎ£åÌïòÏãúÎ†§Î©¥0ÏùÑ ÏûÖÎ†•Ìï¥ Ï£ºÏÑ∏Ïöî..");
+				try {
+					String bunho = input.readLine();
+					if (bunho.equals("1")) {
+						continue;
+					} else {
+						System.exit(0);
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} // Îì±Î°ùÏùòÎÅù
+//		if(protocol.equals("2")) {
+//			System.out.println("Ï∞æÍ∏∞");
+//			   try {
+//				HaksaFunction.search(input, stmt, conn);
+//			} catch (IOException e1) {
+//				e1.printStackTrace();
+//			} catch (SQLException e1) {
+//				e1.printStackTrace();
+//			}
+//						try {
+//							conn.close();
+//						} catch (SQLException e) {
+//							e.printStackTrace();
+//						}			
+//		}
+//		else if(protocol.equals("3")) {
+//			System.out.println("ÏÇ≠Ï†ú");
+//			try {
+//				HaksaFunction.delete(input, stmt, conn);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}else if(protocol.equals("4")) {
+//			System.out.println("Ï†ÑÏ≤¥Ï∂úÎ†•");
+//			        try {
+//						HaksaFunction.list(stmt, conn);
+//						
+//					} catch (IOException e) {
+//						e.printStackTrace();
+//					} catch (SQLException e) {
+//						e.printStackTrace();
+//					} finally {
+//						try {
+//							conn.close();
+//						} catch (SQLException e) {
+//							e.printStackTrace();
+//						}
+//					}			
+//		   }		
+//		else if(protocol.equals("0")) {			
+//			System.out.println("ÌïôÏÇ¨ÌîÑÎ°úÍ∑∏Îû®ÏùÑ Ï¢ÖÎ£åÌï©ÎãàÎã§.");
+//			System.exit(0);
+//		}
+		} // Î∞òÎ≥µÎ¨∏
+	}
 }
